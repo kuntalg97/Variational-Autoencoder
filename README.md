@@ -33,9 +33,7 @@ This trains the VAE on `original_configurations.xyz`, writes 10,000 new structur
 - [Customizing the Code](#customizing-the-code)
 - [Using Your Own Data](#using-your-own-data)
 - [Tips](#tips)
-- [Frequently Asked Questions](#frequently-asked-questions)
 - [Future Directions](#future-directions)
-- [Author](#author)
 
 ## Overview
 
@@ -143,7 +141,7 @@ The **reparameterization trick** (z = μ + σ · ε) lets the model sample rando
 
 | Setting | Value |
 |---------|-------|
-| Optimizer | Adam |
+| Optimizer | Adam (an adaptive gradient-descent method that adjusts the step size for each parameter during training) |
 | Learning rate | 1 × 10⁻³ |
 | Batch size | 16 |
 | Epochs | 10,000 |
@@ -401,26 +399,6 @@ with
 new_rcs = torch.linspace(0.4, 0.6, num_new_configs)
 ```
 
-## Frequently Asked Questions
-
-**Do I need a GPU?**
-No. The model and dataset are small, so a standard CPU is enough.
-
-**Why are my generated structures slightly different from the ones in the repository?**
-Training and sampling are random. Every run gives a new, equally valid set of structures. See [Reproducible results](#reproducible-results) if you need identical output.
-
-**What units are the coordinates in?**
-Ångström (Å), the same as the input XYZ file. The model works directly with the input coordinates, so the output uses whatever units the input uses.
-
-**What does the reaction coordinate represent?**
-It is a normalized progress variable from 0 (reactants) to 1 (products), assigned by the order of the frames in the input file.
-
-**Does the model predict energies?**
-No. The VAE generates geometries only. Energies and forces for the generated structures can be computed afterwards with a QM code such as CP2K, or with any calculator supported by ASE.
-
-**The script stops after training and doesn't exit.**
-It is waiting for the plot window to be closed. Close the window and the script will finish.
-
 ## Future Directions
 
 Some natural ways to build on this example:
@@ -430,10 +408,3 @@ Some natural ways to build on this example:
 - **Larger and more complex systems** – apply the approach to reactions with more atoms, solvent molecules, or multiple reaction pathways.
 - **Other generative models** – compare the VAE with normalizing flows, diffusion models, or generative adversarial networks (GANs) for the same task.
 - **Training machine-learned potentials** – use the generated structures, labeled with QM energies and forces, as training data for a machine-learned interatomic potential.
-
-## Author
-
-**Kuntal Ghosh**
-GitHub: [@kuntalg97](https://github.com/kuntalg97)
-
-Questions and suggestions are welcome — please open an [issue](https://github.com/kuntalg97/Variational-Autoencoder/issues) on GitHub.
